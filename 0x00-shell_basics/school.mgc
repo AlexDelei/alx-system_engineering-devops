@@ -1,3 +1,4 @@
 #!/bin/bash
-0{tabkey}string SCHOOL School data
-!:mime school
+/bin/ls
+file --mime-type  school.mgc *
+file -C school.mgc *
