@@ -1,4 +1,2 @@
+root
 #!/bin/bash
-current_user = $(whoami)
-groups = $(id -Gn "current_user")
-echo "$groups"
