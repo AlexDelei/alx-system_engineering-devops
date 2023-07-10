@@ -1,2 +1,2 @@
 #!/bi/bash
-find . -type f -iname "*.gif" -printf "%f\n" | sed 's/\.gif$//' | LC_COLLATE=C sort -f
+ls -pR1 -I "*/*" | grep -i "\.gif$" | sed 's/\.gif$//' | LC_COLLATE=C sort -f
