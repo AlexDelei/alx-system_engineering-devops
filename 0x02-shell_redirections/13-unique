@@ -1,2 +1,2 @@
 #!/bin/bash
-tr -s '[:space:]' '\n' list | sort | uniq -u
+sort | uniq -u
