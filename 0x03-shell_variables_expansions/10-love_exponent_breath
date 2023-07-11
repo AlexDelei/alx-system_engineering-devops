@@ -1,2 +1,2 @@
 #!/bin/bash
-export 	$BREATHE & $LOVE | echo $(( $BREATHE**$LOVE ))"\n"
+echo $(( BREATHE**LOVE ))
