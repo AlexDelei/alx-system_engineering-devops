@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# bad lack from china, Japan or Italy for 4th, 9th and 17th
+
+cnt=1
+
+while [ $cnt -lt 21 ]; do
+	echo "$cnt"
+	case "$cnt" in
+		4)
+			echo "bad luck from China"
+			;;
+		9)
+			echo "bad luck from Japan"
+			;;
+		17)
+			echo "bad luck from Italy"
+			;;
+	esac
+
+	((cnt++))
+done
