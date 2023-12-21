@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times
 
-cnt=0
+cnt=1
 
-while [ $cnt -lt 10 ]; do
-	if [ $cnt -eq 8 ]
+while [ $cnt -lt 11 ]; do
+	if [ $cnt -eq 9 ]
 	then
 		echo "Hi"
 	else
