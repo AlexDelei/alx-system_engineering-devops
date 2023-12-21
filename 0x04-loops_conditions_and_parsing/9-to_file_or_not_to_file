@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # File tests
 
-file="/alx-system_engineering-devops/0x04-loops_conditions_and_parsing/school"
+file="alx-system_engineering-devops/0x04-loops_conditions_and_parsing/school"
 
 if [ -e "$file" ]
 then
