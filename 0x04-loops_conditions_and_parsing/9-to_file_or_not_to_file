@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 # File tests
 
-file="alx-system_engineering-devops/0x04-loops_conditions_and_parsing/school"
+file="/alx-system_engineering-devops/0x04-loops_conditions_and_parsing/school"
 
-if [ -e "$file" ]
+if [[ -e "$file" ]]
 then
 	echo "school file exists"
+
+	if [ -s "$file" ]
+	then
+		echo "school file is not empty"
+	else
+		echo "school file is empty"
+	fi
+	if [ -f "$file" ]
+	then
+		echo "school is a regular file"
+	fi
 else
-	echo "school file does not exist"
-fi
-if [ -s "$file" ]
-then
-	echo "school file is not empty"
-else
-	echo "school file is empty"
-fi
-if [ -f "$file" ]
-then
-	echo "school is a regular file"
+    echo "school file does not exist"
 fi
