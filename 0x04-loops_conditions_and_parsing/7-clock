@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Displays hrs upto 12 and mins upto 59
+
+hr=0
+
+while [ $hr -lt 12 ]; do
+	echo "Hour: $hr"
+	mins=1
+	while [ $mins -lt 60 ]; do
+		echo "$mins"
+		((mins++))
+	done
+	((hr++))
+done
