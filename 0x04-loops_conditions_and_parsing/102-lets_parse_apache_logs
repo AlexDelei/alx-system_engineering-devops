@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Displaying visitor IP address and HTTP_CODE
+
+# Apache log file path
+apache_log="apache-access.log"
+
+# Using awk to extract IP and http_code
+awk '{print $1, $9}' "$apache_log"
