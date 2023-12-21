@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Ordered IP address listing
+
+apache_log="apache-access.log"
+
+awk '{ count[$1, $9]++ } END { for (key in count) { split(key, arr, SUBSEP); print count[key], arr[1], arr[2] } }' "$apache_log" | sort -nr
