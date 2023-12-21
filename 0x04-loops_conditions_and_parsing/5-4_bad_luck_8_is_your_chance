@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# 4th is bad lack while 8th is your chance
+
+cnt=0
+
+while [ $cnt -lt 10 ]; do
+	if [ $cnt -eq 3 ]
+	then
+		echo "bad luck"
+	elif [ $cnt -eq 7 ]
+	then
+		echo "good luck"
+	else
+		echo "Best School"
+	fi
+	((cnt++))
+done
