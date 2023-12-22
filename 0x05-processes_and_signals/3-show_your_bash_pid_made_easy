@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Pid's alongside with process name
+
+pgrep -l bash | while read -r pid process_name; do
+	echo "$pid $process_name"
+done
