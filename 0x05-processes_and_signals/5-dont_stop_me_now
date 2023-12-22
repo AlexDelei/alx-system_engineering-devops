@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
 # Terminating a process
 
-pkill -f '4-to_infinity_and_beyond'
+pid=$(pgrep -f '4-to_infinity_and_beyond')
+
+if [ -n "$pid" ]; then
+    # Use kill to send a SIGTERM signal to the process
+    kill -15 "$pid"
+  
+else
+    echo "No process found with the name '4-to_infinity_and_beyond'."
+fi
