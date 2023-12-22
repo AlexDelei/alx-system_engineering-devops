@@ -1,4 +1,29 @@
 #!/usr/bin/env bash
 # Stopping without killing
 
-pkill -f '7-highlander'
+terminate_handler() {
+    echo "I am invincible!!!"
+
+    # Get the process ID (PID) of the "7-highlander" process
+    pid=$(pgrep -f '7-highlander')
+
+    if [ -n "$pid" ]; then
+        # Use kill to send a SIGTERM signal to the process
+        kill -15 "$pid"
+        echo "Process with PID $pid stopped successfully."
+    else
+        echo "No process found with the name '7-highlander'."
+    fi
+
+    exit 0
+}
+
+# Set up trap to catch SIGTERM and call the terminate_handler function
+trap terminate_handler SIGTERM
+
+# Run the 6-stop_me_if_you_can.sh script in the background
+./6-stop_me_if_you_can &
+pid6=$!
+
+# Wait for the process to finish
+wait $pid6
