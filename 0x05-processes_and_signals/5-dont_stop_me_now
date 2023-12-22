@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Terminating a process
+
+kill 1367 
