@@ -8,7 +8,7 @@ else
   input = ARGV[0]
 
   # Define the pattern
-  pattern = /^(?!hbon$).*$/
+  pattern = /^(?!hbo)/
 
   matches = input.scan(pattern).flatten
 
