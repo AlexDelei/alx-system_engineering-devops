@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Dsiplaying all active IPV4 on this machine
+
+ip_addresses=$(ip -o addr show | awk '/inet / {print $4}' | cut -d/ -f1)
+ip_addresses="$ip_addresses $(hostname -I)"
+
+unique_ipv4_addresses=$(echo "$ip_addresses" | tr ' ' '\n' | sort -u | grep -E '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$')
+
+ipv4_addresses=$(ifconfig | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+echo "Active IPv4 IP addresses on this machine:"
+echo "$ipv4_addresses"
