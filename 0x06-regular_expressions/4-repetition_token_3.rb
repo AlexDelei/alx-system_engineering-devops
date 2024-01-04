@@ -8,7 +8,7 @@ else
   input = ARGV[0]
 
   # Define the pattern
-  pattern = /^hb(?!o).*$/
+  pattern = /^hbn$|^hbt(.{0,})n$/
 
   matches = input.scan(pattern).flatten
 
