@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#Listening to port 80
+
+if ! command -v nc &> /dev/null; then
+    echo "Error: Netcat (nc) command not found. Please install it."
+    exit 1
+fi
+
+nc -l -p 98
