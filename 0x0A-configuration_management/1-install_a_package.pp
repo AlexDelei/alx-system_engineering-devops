@@ -1,3 +1,4 @@
+#!/usr/bin/pup
 # Installing a version of Flask
 
 package { 'flask':
