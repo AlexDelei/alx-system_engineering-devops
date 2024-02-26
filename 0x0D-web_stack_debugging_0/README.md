@@ -6,6 +6,6 @@ Being able to debug a webstack is essential for a Full-Stack Software Engineer, 
 In this debugging series, broken/bugged webstacks will be given to you, the final goal is to come up with a Bash script that once executed, will bring the webstack to a working state. But before writing this Bash script, you should figure out what is going on and fix it manually
 > [!IMPORTANT]
 <ul>
-<li>have a copy of the **/etc/passwd** file in __/tmp__ </li>
+<li>have a copy of the **/etc/passwd** file in <b>/tmp</b> </li>
 <li>have a file named **/tmp/isworking** containing the string **OK**</li>
 </ul>
