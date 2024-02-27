@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Installing Nginx on my machine and configuring it
+
+# Updating the package
+sudo apt-get update
+
+# Installing nginx
+sudo apt-get install -y nginx
+
+echo "<!DOCTYPE html><html><body><h1>Hello World!</h1></body></html>" | sudo tee /var/www/html/index.html
+
+# Configuring Nginx to listen on port 80 and serve the custom HTML page
+echo "server {
+     listen 80;
+     server_name localhost;
+
+
+     loaction / {
+     	root /var/www/html;
+	index index.html;
+	}
+}" | sudo tee /etc/nginx/sites-available/default
+
+# Restart Nginx
+sudo /etc/init.d/nginx restart
