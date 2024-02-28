@@ -2,3 +2,5 @@
 # Fixing a bug
 
 docker run -p 8080:80 -d holbertonschool/265-0
+
+curl 0:8080
