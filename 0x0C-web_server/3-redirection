@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#  A Script that configures a new Ubuntu machine to Perform a 301-redirection
+apt-get update
+apt-get install -y nginx
+echo "Hello World!" | tee /var/www/html/index.html
+replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/google.com\/ permanent;"
+sed -i "s/server_name _;/$replacement/" /etc/nginx/sites-enabled/default
+service nginx restart
