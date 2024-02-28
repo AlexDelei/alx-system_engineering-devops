@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Customizing a 404-error_page
+
+apt-get update
+apt-get install -y nginx
+echo "Hello World!" | tee /var/www/html/index.html
+string="server_name _;\n\trewrite ^\/redirect_me https:\/\/google.com\/ permanent;"
+sed -i "s/server_name _;/$string/" /etc/nginx/sites-enabled/default
+echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sed -i "s/listen 80 default_server;/$string/" /etc/nginx/sites-enabled/default
+nginx -t
+service nginx restart
