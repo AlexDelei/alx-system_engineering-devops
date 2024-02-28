@@ -5,4 +5,4 @@
 docker run -p 8080:80 -d holbertonschool/265-0
 
 # Connect to the running container in interactive mode
-docker exec -ti "$(docker ps -q)" /bin/bash
+docker exec -it "$(docker ps -q)" /bin/bash
