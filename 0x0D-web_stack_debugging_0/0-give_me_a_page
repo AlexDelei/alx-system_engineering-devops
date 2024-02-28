@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# fixing debugging issue
+
+docker run -p 8080:80 -d -it holbertonschool /bin/bash
