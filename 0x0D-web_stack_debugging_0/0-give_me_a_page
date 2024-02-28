@@ -1,19 +1,4 @@
 #!/usr/bin/env bash
-# fixing debugging issue
+# Fixing a bug
 
-
-# If the web server is not running, start it
-service nginx start
-
-# Check if the web server is binding to port 80
-netstat -tulpn | grep :80
-
-# If not, there might be a configuration issue, check the Nginx configuration
-cat /etc/nginx/nginx.conf
-cat /etc/nginx/sites-available/default
-
-# If you find any issues, fix the configuration and restart the Nginx service
-service nginx restart
-
-# Exit the container
-exit
+exec /bin/bash
