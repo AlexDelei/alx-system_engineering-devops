@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 # fixing debugging issue
 
-docker run -p 8080:80 -d  exec -ti holbertonschool /bin/bash
+# Run the Docker container in detached mode
+docker run -p 8080:80 -d holbertonschool/265-0
+
+# Connect to the running container in interactive mode
+docker exec -ti "$(docker ps -q)" /bin/bash
