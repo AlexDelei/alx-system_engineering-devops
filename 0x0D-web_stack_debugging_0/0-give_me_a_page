@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Fixing a bug
 
-exec /bin/bash
+docker run -p 8080:80 -d holbertonschool/265-0
