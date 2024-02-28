@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Fixing a bug
+# starting the apache server
 
-docker run -p 8080:80 -d holbertonschool/265-0
-
-curl 0:8080
+service apache2 start
