@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# configuring the web server
-server {
+# Backup the default Nginx configuration
+# sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Modify Nginx configuration to listen on port 80 and add custom header
+echo "server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
@@ -9,10 +12,13 @@ server {
 
     server_name _;
 
-    # Add the custom header
+    # Add the custom header with the hostname
     add_header X-Served-By $hostname;
 
     location / {
         return 200 "Hello World!\n";
     }
-}
+}" | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+# Restart Nginx to apply changes
+sudo service nginx restart
