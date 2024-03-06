@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Let's see if nginx is installed and if not lets install it
-sudo apt-get update
 sudo apt-get install -y nginx
 echo "server {listen 80;}" | sudo tee /etc/nginx/sites-available/default > /dev/null
 sudo service nginx restart
