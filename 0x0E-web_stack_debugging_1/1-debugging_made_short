@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Making the fix short and sweet
-sudo apt-get install -y nginx
-sudo sed -i 's/80 default_server/80 default_server\n        location \/ {\n      \n           return 200;\n        }/' /etc/nginx/sites-available/default
-sudo service nginx stop
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+sudo service nginx restart
+kill -9 "$(cat /var/run/nginx.pid)"
