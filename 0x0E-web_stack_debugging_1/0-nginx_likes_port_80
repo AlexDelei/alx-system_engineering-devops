@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Let's see if nginx is installed and if not lets install it
-rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
-service restart
+# fixing some bugs
+apt install -y nginx
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo service nginx restart
