@@ -1,17 +1,39 @@
 #!/usr/bin/env bash
-#a Bash script that will display information about subdomains.
-domain="$1"
-subdomain="$2"
 
-pprintDom () {
-	dig "$1.$2" | grep -A1 'ANSWER SECTION' | awk 'NR==2' | awk '{sub(/\..*$/, "", $1); print "The subdomain " $1 " is a " $4 " record and points to " $5}'
+# Function to display information for a subdomain
+display_info() {
+    local subdomain="$1"
+    local domain="$2"
+    local ip=$(dig +short "$subdomain.$domain")
+    local record_type=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION/{getline; print $4}')
+
+    if [ -n "$ip" ]; then
+        echo "The subdomain $subdomain is a $record_type record and points to $ip"
+    else
+        echo "No information found for the subdomain $subdomain"
+    fi
 }
 
+# Function to display information for specific subdomains
+audit_subdomains() {
+    local domain="$1"
+    local subdomains=("www" "lb-01" "web-01" "web-02")
+
+    for subdomain in "${subdomains[@]}"; do
+        display_info "$subdomain" "$domain"
+    done
+}
+
+# Main script
 if [ "$#" -eq 1 ]; then
-	for subs in www lb-01 web-01 web-02
-	do
-		pprintDom "$subs" "$1"
-	done
+    # Only domain parameter provided
+    domain="$1"
+    audit_subdomains "$domain"
+elif [ "$#" -eq 2 ]; then
+    # Both domain and subdomain parameters provided
+    domain="$1"
+    subdomain="$2"
+    display_info "$subdomain" "$domain"
 else
-	pprintDom "$subdomain" "$domain"
+    echo "Usage: $0 <domain> [<subdomain>]"
 fi
