@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-
 # Function to display information for a subdomain
 display_info() {
     local subdomain="$1"
     local domain="$2"
-    local ip=$(dig +short "$subdomain.$domain")
-    local record_type=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION/{getline; print $4}')
+    local ip
+    ip=$(dig +short "$subdomain.$domain")
+    local record_type
+    record_type=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION/{getline; print $4}')
 
     if [ -n "$ip" ]; then
         echo "The subdomain $subdomain is a $record_type record and points to $ip"
