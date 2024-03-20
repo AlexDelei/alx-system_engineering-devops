@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Generating a MySQL dump and creates a compressed archive out of it.
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 <mysql_pwd>"
+	exit 1
+fi
+
+pwd=$1
+back_up="backup.sql"
+archive=$(date +'%d-%m-%Y').tar.gz
+sudo mysqldump -u root -p$pwd --all-databases > "$back_up"
+
+# Check if mysqldump command was successful
+if [ $? -ne 0 ]; then
+    echo "MySQL dump failed. Exiting..."
+    exit 1
+fi
+
+tar -czf $archive $back_up
