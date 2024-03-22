@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# running root user
+
+if [ $# -ne 1 ]; then
+       echo "Usage: $0 <username>"
+       exit 1
+fi
+
+# assign the provided username to a variable
+username=$1
+
+sudo -u "$username" whoami
