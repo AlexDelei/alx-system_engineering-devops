@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# API call and display of data
+""" API call and display of data"""
 import requests
 import sys
 
