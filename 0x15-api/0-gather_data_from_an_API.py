@@ -15,22 +15,21 @@ def getUser(userId):
     task_title = []
     for i in tasks_done:
         if i['userId'] == int(userId):
-            if i['completed'] == True:
+            if i['completed']:
                 done_list.append(i['completed'])
-            if i['completed'] == False:
-                not_done.append(i['completed'])
-            if i['completed'] == True:
                 task_title.append(i['title'])
+            else:
+                not_done.append(i['completed'])
 
     data = r.json()
     name = data.get('name')
     done = len(done_list)
-    Notdone = len(not_done)
-    print("Employee {} is done with tasks {}/{}:".format(name, done, Notdone))
+    total = len(not_done) + done
+    print("Employee {} is done with tasks {}/{}:".format(name, done, total))
     for i in task_title:
         print("\t{}".format(i))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     user_id = sys.argv[1]
     getUser(user_id)
