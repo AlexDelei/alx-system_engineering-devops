@@ -1,45 +1,31 @@
 #!/usr/bin/python3
-""" API call and display of data"""
-import csv
+"""Display user data from id provided"""
 import requests
 import sys
 
 
-def export_csv(userId, data, username):
-    """Export data to CSV file"""
-    csv_file = f"{userId}.csv"
-    with open(csv_file, mode="w", newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['USER_ID', 'USERNAME', 'TASK_COMPLETED_STATUS', 'TASK_TITLE'])
-        for task in data:
-            writer.writerow([userId, username, task['completed'], task['title']])
-
-
-def getUser(userId):
-    """print out how many todos a certain user has done"""
-    r = requests.get(f"https://jsonplaceholder.typicode.com/users/{userId}")
-    tasks = requests.get('https://jsonplaceholder.typicode.com/todos/')
-
-    tasks_done = tasks.json()
-    done_list = []
-    not_done = []
-    task_title = []
-    for i in tasks_done:
-        if i['userId'] == int(userId):
-            if i['completed']:
-                done_list.append(i['completed'])
-                task_title.append(i['title'])
-            else:
-                not_done.append(i['completed'])
-
-    data = r.json()
-    name = data.get('name')
-    username = data.get('username')
-    export_csv(userId, tasks_done, username)
-    done = len(done_list)
-    total = len(not_done) + done
+def main():
+    """ def com """
+    id = sys.argv[1]
+    url = f'https://jsonplaceholder.typicode.com/'
+    users = f'users?id={id}'
+    todos = f'todos?userId={id}'
+    done = f'{todos}&completed=true'
+    notDone = f'{todos}&completed=false'
+    userData = requests.get(f'{url}{users}').json()
+    Name = userData[0].get("name")
+    userName = userData[0].get("username")
+    todosData = requests.get(f'{url}{todos}').json()
+    todosDone = requests.get(f'{url}{done}').json()
+    doneN = len(todosDone)
+    totalN = len(todosData)
+    """Export into csv"""
+    with open(f'{id}.csv', 'w') as f:
+        for todo in todosData:
+            data = f'"{id}","{userName}","{todo.get("completed")}",'
+            data2 = f'"{todo.get("title")}"\n'
+            f.write(data+data2)
 
 
 if __name__ == "__main__":
-    user_id = sys.argv[1]
-    getUser(user_id)
+    main()
