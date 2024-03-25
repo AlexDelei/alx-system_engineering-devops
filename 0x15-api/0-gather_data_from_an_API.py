@@ -27,7 +27,7 @@ def getUser(userId):
     total = len(not_done) + done
     print("Employee {} is done with tasks({}/{}):".format(name, done, total))
     for i in task_title:
-        print("\t{}".format(i))
+        print("\t {}".format(i))
 
 
 if __name__ == "__main__":
