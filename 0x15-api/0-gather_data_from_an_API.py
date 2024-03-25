@@ -25,7 +25,7 @@ def getUser(userId):
     name = data.get('name')
     done = len(done_list)
     total = len(not_done) + done
-    print("Employee {} is done with tasks {}/{}:".format(name, done, total))
+    print("Employee {} is done with tasks({}/{}):".format(name, done, total))
     for i in task_title:
         print("\t{}".format(i))
 
