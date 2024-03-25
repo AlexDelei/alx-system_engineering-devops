@@ -9,13 +9,10 @@ def export_csv(userId, data, username):
     """Export data to CSV file"""
     csv_file = f"{userId}.csv"
     with open(csv_file, mode="w", newline='') as f:
-        w = csv.writer(f)
-        w.writerow(['USER_ID',
-                    'USERNAME',
-                    'TASK_COMPLETED_STATUS',
-                    'TASK_TITLE'])
+        writer = csv.writer(f)
+        writer.writerow(['USER_ID', 'USERNAME', 'TASK_COMPLETED_STATUS', 'TASK_TITLE'])
         for task in data:
-            w.writerow([userId, username, task['completed'], task['title']])
+            writer.writerow([userId, username, task['completed'], task['title']])
 
 
 def getUser(userId):
@@ -37,13 +34,10 @@ def getUser(userId):
 
     data = r.json()
     name = data.get('name')
-    user_name = data.get('username')
-    export_csv(userId, tasks_done, user_name)
+    username = data.get('username')
+    export_csv(userId, tasks_done, username)
     done = len(done_list)
     total = len(not_done) + done
-    print("Employee {} is done with tasks({}/{}):".format(name, done, total))
-    for i in task_title:
-        print("\t {}".format(i))
 
 
 if __name__ == "__main__":
