@@ -37,7 +37,8 @@ def getUser(userId):
 
     data = r.json()
     name = data.get('name')
-    export_csv(userId, tasks_done, name)
+    user_name = data.get('username')
+    export_csv(userId, tasks_done, user_name)
     done = len(done_list)
     total = len(not_done) + done
     print("Employee {} is done with tasks({}/{}):".format(name, done, total))
