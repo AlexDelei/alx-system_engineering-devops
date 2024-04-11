@@ -1,17 +1,17 @@
 #!/usr/bin/python3
-"""
-Fetch All subreddit subscribers
-"""
+"""a function that queries the Reddit API
+and returns the number of subscribers
+(not active users, total subscribers)
+for a given subreddit.
+If an invalid subreddit is given, the function should return 0."""
 import requests
 
 
 def number_of_subscribers(subreddit):
-    """Get the no of subscribers"""
+    """The function to implement the logic"""
     try:
-        headers = {'User-Agent': 'My-User-Agent'}
-        url = f"https://www.reddit.com/r/{subreddit}/about.json"
-        respo = requests.get(url, headers=headers, allow_redirects=False)
-        data = respo.json()
-        return data.get('data').get('subscribers')
+        link = f"https://www.reddit.com/r/{subreddit}/about.json"
+        r = requests.get(link, headers={"User-Agent": "My-User-Agent"})
+        return r.json().get("data").get("subscribers")
     except Exception:
-        return 0
+        return (0)
