@@ -1,22 +1,20 @@
 #!/usr/bin/python3
 """
-Reddit API
+Fetch All subreddit subscribers
 """
 import requests
-import sys
 
 
 def number_of_subscribers(subreddit):
-    """
-    return the number of subscribers
-    """
-    url = ("https://www.reddit.com/r/{}/about.json".format(subreddit))
-    headers = {
-        "User-Agent": "Custom User Agent"
-    }
-    r = requests.get(url, headers=headers, allow_redirects=False)
-    if r.status_code == 200:
-        data = r.json()["data"]["subscribers"]
-        return data
-    else:
+    """Get the no of subscribers"""
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {'User-Agent': 'Custom User Agent'}
+    try:
+        respo = requests.get(url, headers=headers, allow_redirects=False)
+        if respo.statuc_code == 200:
+            data = respo.json()
+            return data['data']['subscribers']
+        else:
+            return 0
+    except Exception as e:
         return 0
