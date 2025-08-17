@@ -116,6 +116,7 @@ handle_commit_error() {
 
     else
         echo -e "❌ ${RED}Unhandled commit error. Manual fix required.${NONE}"
+		echo -e "${RED}Aborting commit...${NONE}"
         return 1
     fi
 }
