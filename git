@@ -8,6 +8,7 @@ files_not_found=()
 BLUE='\033[0;34m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+B_GREEN='\033[1;32m'
 PURPLE='\033[1;35m'
 NONE='\033[0m'
 
@@ -110,14 +111,14 @@ handle_commit_error() {
 
 	elif echo "$output" | grep -q "ahead of 'origin/main'"; then
 		echo -e "${PURPLE}==>${NONE} ${RED}Branch is ahead of origin/main.${NONE}"
-		echo -e "${GREEN}Retrying ...${NONE}"
+		echo -e "${B_GREEN}==>${NONE} ${GREEN}Retrying ...${NONE}"
 		git push -u origin main
 		echo -e "✅ ${GREEN}Commit successful.${NONE}"
 		return 0
 
 	elif echo "$output" | grep -q "ahead of 'origin/master'"; then
 		echo -e "${PURPLE}==>${NONE} ${RED}Branch is ahead of origin/master.${NONE}"
-		echo -e "${GREEN}Retrying ...${NONE}"
+		echo -e "${B_GREEN}==>${NONE} ${GREEN}Retrying ...${NONE}"
 		git push -u origin master
 		echo -e "✅ ${GREEN}Commit successful.${NONE}"
 		return 0
