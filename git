@@ -7,6 +7,7 @@ files_not_found=()
 # color codes
 BLUE='\033[0;34m'
 RED='\033[0;31m'
+B_RED='\033[1;31m'
 GREEN='\033[0;32m'
 B_GREEN='\033[1;32m'
 PURPLE='\033[1;35m'
@@ -82,7 +83,7 @@ handle_push_error() {
         git stash pop
 
     else
-        echo -e "⚠️ ${RED}Unhandled Git error, manual fix required.${NONE}"
+        echo -e "⚠️ ${B_RED}==>${NONE} ${RED}Unhandled Git error, manual fix required.${NONE}"
         return 1
     fi
 }
@@ -125,7 +126,7 @@ handle_commit_error() {
 
     else
         echo -e "❌ ${RED}Unhandled commit error. Manual fix required.${NONE}"
-		echo -e "${RED}Aborting commit...${NONE}"
+		echo -e "${B_RED}==>${NONE} ${RED}Aborting commit...${NONE}"
         return 1
     fi
 }
