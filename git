@@ -114,6 +114,13 @@ handle_commit_error() {
 		echo -e "✅ ${GREEN}Commit successful.${NONE}"
 		return 0
 
+	elif echo "$output" | grep -q "ahead of origin/master"; then
+		echo -e "${RED}Branch is ahead of origin/master.${NONE}"
+		echo -e "${GREEN}Retrying ...${NONE}"
+		git push -u origin master
+		echo -e "✅ ${GREEN}Commit successful.${NONE}"
+		return 0
+
     else
         echo -e "❌ ${RED}Unhandled commit error. Manual fix required.${NONE}"
 		echo -e "${RED}Aborting commit...${NONE}"
