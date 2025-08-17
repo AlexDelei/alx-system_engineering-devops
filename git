@@ -149,8 +149,8 @@ else
 	change_details=$(git show --stat "$commit_hash")
 
 	echo -e "${BLUE}'$commit_msg'${NONE}"
-	echo -e "${GREEN}Commit Hash ->${NONE}  $commit_hash"
-	echo -e "${GREEN}Changes ->${NONE}  $change_details"
+	echo -e "${GREEN}==>${NONE}  $commit_hash"
+	echo -e "${GREEN}==>${NONE}  $change_details"
 
 	# retrieve the current branch and remote name
 	# this is used to determine where to push the changes
