@@ -158,7 +158,6 @@ else
 	change_details=$(git show --stat "$commit_hash")
 
 	echo -e "${BLUE}'$commit_msg'${NONE}"
-	echo -e "${GREEN}==>${NONE}  $commit_hash"
 	echo -e "${GREEN}==>${NONE}  $change_details"
 
 	# retrieve the current branch and remote name
