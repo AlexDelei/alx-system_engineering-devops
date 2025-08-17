@@ -1,4 +1,169 @@
-#!/usr/bin/bash
-git add .
-git commit -m 'puppet version'
-git push
+#!/usr/bin/env bash
+# Automating version control on the terminal
+
+# An empty array to hold files that are not found
+files_not_found=()
+
+# color codes
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NONE='\033[0m'
+
+# extracting cmd arguments
+if [ "$#" -lt 2 ]; then
+	echo -e "${RED}Error: insufficient arguments${NONE}"
+	echo -e "${GREEN}usage: ./git_ <file_1> <file_n> ... <commit message>${NONE}"
+	exit 1
+fi
+
+# extracting commit message(last argument)
+commit_msg="${!#}"
+
+# checking if the last argument is a valid commit message
+if [ -e "$commit_msg" ]; then
+	echo -e "${RED}Error: the last argument should be a commit message, not a file${NONE}"
+	exit 1
+fi
+
+# Checking if i'm inside a git repo
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+	echo -e "${RED}Error: not inside a git repository${NONE}"
+	exit 1
+fi
+
+# Stage files
+for ((i = 1; i <= $# - 1; i ++)); do
+	file="${!i}"
+
+	if [ "$file" == "." ]; then
+		git add .
+		break
+	elif [ -e "$file" ]; then
+		git add "$file"
+	else
+		files_not_found+=("$file")
+	fi
+done
+
+# Logic flow of git error handling
+# If commit succeeds → continue to push
+# If commit fails → script checks error
+# If it matches a known case → auto-fix (stage + retry)
+# If it’s unknown → alert user
+
+# Handle push Errors
+# handle_push_error() - handles errors that occur during git push
+# locates the error and performs the appropriate action
+# returns 0 on success, 1 on failure
+handle_push_error() {
+    local output="$1"
+    local remote="$2"
+    local branch="$3"
+
+    if echo "$output" | grep -q "no upstream branch"; then
+        echo "{⚡} Fixing: setting upstream..."
+        git push -u "$remote" "$branch"
+
+    elif echo "$output" | grep -q "non-fast-forward"; then
+        echo "{⚡} Fixing: pulling with rebase..."
+        git pull --rebase "$remote" "$branch"
+        git push "$remote" "$branch"
+
+    elif echo "$output" | grep -qi "authentication"; then
+        echo "⚠️ Authentication failed. Please check credentials/token."
+
+    elif echo "$output" | grep -qi "conflict"; then
+        echo "⚠️ Merge conflict detected. Attempting stash/reapply..."
+        git stash
+        git pull --rebase "$remote" "$branch"
+        git stash pop
+
+    else
+        echo -e "⚠️ ${RED}Unhandled Git error, manual fix required.${NONE}"
+        return 1
+    fi
+}
+
+# handle commit Errors
+# handle_commit_error() - handles errors that occur during git commit
+# locates the error and performs the appropriate action
+# returns 0 on success, 1 on failure
+handle_commit_error() {
+    local output="$1"
+    local commit_msg="$2"
+
+    if echo "$output" | grep -q "no changes added to commit"; then
+        echo -e "⚠️ ${RED}Nothing was staged. Staging all changes and retrying...${NONE}"
+        git add .
+        git commit -m "$commit_msg"
+
+    elif echo "$output" | grep -q "Changes not staged for commit"; then
+        echo -e "⚠️ ${RED}Found unstaged changes. Staging modified/deleted files...${NONE}"
+        git add -u
+        git commit -m "$commit_msg"
+
+    elif echo "$output" | grep -q "empty commit message"; then
+        echo -e "⚠️ ${RED}Commit failed due to empty message. Using default message...${NONE}"
+        git commit -m "Auto-commit: $(date)"
+
+	elif echo "$output" | grep -q "ahead of 'origin/main'"; then
+		echo -e "${RED}Branch is ahead of origin/main.${NONE}"
+		echo -e "${GREEN}Retrying ...${NONE}"
+		git push -u origin main
+		echo -e "✅ ${GREEN}Commit successful.${NONE}"
+		return 0
+
+    else
+        echo -e "❌ ${RED}Unhandled commit error. Manual fix required.${NONE}"
+        return 1
+    fi
+}
+
+# if files not found,
+# abort the staged files and commit
+# list the available files in the directory
+# else if files are staged and are in the working directory,
+# proceed to push and commit the staged files.
+if [ "${#files_not_found[@]}" -gt 0 ]; then
+	echo -e "${RED} Files not found: ${NONE}"
+	for fnf in "${files_not_found[@]}"; do
+		echo "  $fnf"
+	done
+	# stop the commit process
+	git reset HEAD
+	echo -e "${RED}Commit aborted due to missing files.${NONE}"
+	# list all the files in the current working directory
+	echo -e "${BLUE}Current working directory files:${NONE}"
+	find . -maxdepth 1 -type f
+	exit 1
+else
+	git commit -m "$commit_msg"
+	if ! output=$(git commit -m "$commit_msg" 2>&1); then
+		echo -e "❌ ${RED}Commit error: $output${NONE}"
+		handle_commit_error "$output" "$commit_msg"
+	fi
+
+	commit_hash=$(git rev-parse HEAD)
+	change_details=$(git show --stat "$commit_hash")
+
+	echo -e "${BLUE}'$commit_msg'${NONE}"
+	echo -e "${GREEN}Commit Hash ->${NONE}  $commit_hash"
+	echo -e "${GREEN}Changes ->${NONE}  $change_details"
+
+	# retrieve the current branch and remote name
+	# this is used to determine where to push the changes
+	current_branch=$(git rev-parse --abbrev-ref HEAD)
+    remote_name=$(git config branch."$current_branch".remote)
+
+	if [ -z "$remote_name" ]; then
+		echo -e "${RED}Error: No remote repository configured for the current branch.${NONE}"
+		exit 1
+	fi
+
+	# push changes to the remote repository
+	# handle_push_error will handle possible errors and retry pushing
+	if ! output=$(git push "$remote_name" "$current_branch" 2>&1); then
+		handle_push_error "$output" "$remote_name" "$current_branch"
+	fi
+fi
